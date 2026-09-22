@@ -1,0 +1,29 @@
+{
+  "name": "ott-platform-proxy",
+  "version": "1.0.0",
+  "description": "OTT Platform Backend Proxy Server - Streams HLS from Telegram private channels",
+  "main": "proxy-server.js",
+  "scripts": {
+    "start": "node proxy-server.js",
+    "dev": "nodemon proxy-server.js",
+    "pm2:start": "pm2 start proxy-server.js --name ott-proxy",
+    "pm2:stop": "pm2 stop ott-proxy",
+    "pm2:restart": "pm2 restart ott-proxy",
+    "pm2:logs": "pm2 logs ott-proxy"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1",
+    "helmet": "^7.1.0",
+    "cors": "^2.8.5",
+    "express-rate-limit": "^7.1.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": ["ott", "streaming", "hls", "telegram", "proxy"],
+  "license": "MIT"
+}
