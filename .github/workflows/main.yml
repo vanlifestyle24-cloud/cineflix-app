@@ -1,0 +1,38 @@
+name: Auto-Deploy to OTT Server
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: Install server dependencies
+        run: |
+          cd server
+          npm install --production
+
+      - name: Deploy to Oracle Cloud Server
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/ubuntu/ott-platform
+            git pull origin main
+            cd server
+            npm install --production
+            pm2 restart ott-proxy || pm2 start proxy-server.js --name ott-proxy
+            pm2 save
