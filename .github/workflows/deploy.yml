@@ -12,17 +12,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+      
       - name: Setup Node.js
-        uses: Actions/setup-node@v3
+        uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-
+      
       - name: Install server dependencies
         run: |
           cd server
           npm ci --production
-
+      
       - name: Deploy to Oracle Cloud Server
         uses: appleboy/ssh-action@v0.1.5
         with:
